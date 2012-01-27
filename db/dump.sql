@@ -1,0 +1,228 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: pages; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE pages (
+    id integer NOT NULL,
+    title character varying(255),
+    content text,
+    url character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.pages OWNER TO admin;
+
+--
+-- Name: pages_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE pages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pages_id_seq OWNER TO admin;
+
+--
+-- Name: pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
+
+
+--
+-- Name: pages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('pages_id_seq', 3, true);
+
+
+--
+-- Name: questions; Type: TABLE; Schema: public; Owner: testapp; Tablespace: 
+--
+
+CREATE TABLE questions (
+    id integer NOT NULL,
+    title character varying(255),
+    text text,
+    is_published boolean,
+    template_id integer,
+    repo_id integer,
+    sort_key integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.questions OWNER TO testapp;
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: testapp
+--
+
+CREATE SEQUENCE questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.questions_id_seq OWNER TO testapp;
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: testapp
+--
+
+ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: testapp
+--
+
+SELECT pg_catalog.setval('questions_id_seq', 1, false);
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO admin;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE pages ALTER COLUMN id SET DEFAULT nextval('pages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: testapp
+--
+
+ALTER TABLE questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+
+
+--
+-- Data for Name: pages; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+INSERT INTO pages VALUES (1, 'Homepage', 'Homepage content', '/', NULL, NULL);
+INSERT INTO pages VALUES (2, 'Testing', 'Testing content', '/testing', NULL, NULL);
+INSERT INTO pages VALUES (3, '404 not found', 'Page not found', '/404', NULL, NULL);
+
+
+--
+-- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: testapp
+--
+
+INSERT INTO questions VALUES (1, 'Вопрос 1', 'Внимание, вопрос: сколько будет 2+2?', true, 1, NULL, 1, NULL, NULL);
+INSERT INTO questions VALUES (2, 'Вопрос 2', 'Внимание, следующий вопрос: решите: 3-10', false, 1, NULL, 2, NULL, NULL);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+INSERT INTO schema_migrations VALUES ('20120116105420');
+INSERT INTO schema_migrations VALUES ('20120116111604');
+INSERT INTO schema_migrations VALUES ('20120125161711');
+
+
+--
+-- Name: pages_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_pkey; Type: CONSTRAINT; Schema: public; Owner: testapp; Tablespace: 
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- Name: pages; Type: ACL; Schema: public; Owner: admin
+--
+
+REVOKE ALL ON TABLE pages FROM PUBLIC;
+REVOKE ALL ON TABLE pages FROM admin;
+GRANT ALL ON TABLE pages TO admin;
+GRANT ALL ON TABLE pages TO PUBLIC;
+
+
+--
+-- Name: schema_migrations; Type: ACL; Schema: public; Owner: admin
+--
+
+REVOKE ALL ON TABLE schema_migrations FROM PUBLIC;
+REVOKE ALL ON TABLE schema_migrations FROM admin;
+GRANT ALL ON TABLE schema_migrations TO admin;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

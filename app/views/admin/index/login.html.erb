@@ -1,0 +1,6 @@
+<%= form_for :admin do |u|%>
+Name<%=  u.text_field :name %><br />
+Pass<%=  u.password_field :pass %><br />
+<%=u.submit :value=>'Submit'%>
+<%  end %>
+<%=flash[:error] %>
