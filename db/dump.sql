@@ -29,6 +29,51 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: answers; Type: TABLE; Schema: public; Owner: testapp; Tablespace: 
+--
+
+CREATE TABLE answers (
+    id integer NOT NULL,
+    question_id integer,
+    title character varying(255),
+    text text,
+    correct text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.answers OWNER TO testapp;
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: testapp
+--
+
+CREATE SEQUENCE answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.answers_id_seq OWNER TO testapp;
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: testapp
+--
+
+ALTER SEQUENCE answers_id_seq OWNED BY answers.id;
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: testapp
+--
+
+SELECT pg_catalog.setval('answers_id_seq', 1, false);
+
+
+--
 -- Name: pages; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
 --
 
@@ -80,9 +125,9 @@ CREATE TABLE questions (
     id integer NOT NULL,
     title character varying(255),
     text text,
+    variant integer,
     is_published boolean,
-    template_id integer,
-    repo_id integer,
+    type character varying(255),
     sort_key integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -116,7 +161,7 @@ ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
 -- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: testapp
 --
 
-SELECT pg_catalog.setval('questions_id_seq', 1, false);
+SELECT pg_catalog.setval('questions_id_seq', 1, true);
 
 
 --
@@ -129,6 +174,13 @@ CREATE TABLE schema_migrations (
 
 
 ALTER TABLE public.schema_migrations OWNER TO admin;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: testapp
+--
+
+ALTER TABLE answers ALTER COLUMN id SET DEFAULT nextval('answers_id_seq'::regclass);
+
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
@@ -145,6 +197,12 @@ ALTER TABLE questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::re
 
 
 --
+-- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: testapp
+--
+
+
+
+--
 -- Data for Name: pages; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
@@ -157,8 +215,7 @@ INSERT INTO pages VALUES (3, '404 not found', 'Page not found', '/404', NULL, NU
 -- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: testapp
 --
 
-INSERT INTO questions VALUES (1, 'Вопрос 1', 'Внимание, вопрос: сколько будет 2+2?', true, 1, NULL, 1, NULL, NULL);
-INSERT INTO questions VALUES (2, 'Вопрос 2', 'Внимание, следующий вопрос: решите: 3-10', false, 1, NULL, 2, NULL, NULL);
+INSERT INTO questions VALUES (1, 'Question 1', 'Text 1', 1, true, 'Radio', 1, NULL, NULL);
 
 
 --
@@ -168,6 +225,17 @@ INSERT INTO questions VALUES (2, 'Вопрос 2', 'Внимание, следу
 INSERT INTO schema_migrations VALUES ('20120116105420');
 INSERT INTO schema_migrations VALUES ('20120116111604');
 INSERT INTO schema_migrations VALUES ('20120125161711');
+INSERT INTO schema_migrations VALUES ('20120125165845');
+INSERT INTO schema_migrations VALUES ('20120127113136');
+INSERT INTO schema_migrations VALUES ('20120127113348');
+
+
+--
+-- Name: answers_pkey; Type: CONSTRAINT; Schema: public; Owner: testapp; Tablespace: 
+--
+
+ALTER TABLE ONLY answers
+    ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
 
 
 --

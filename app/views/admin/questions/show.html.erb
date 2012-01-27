@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @question.title %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%= @question.text %>
+</p>
+
+<p>
+  <b>Variant:</b>
+  <%= @question.variant %>
+</p>
+
+<p>
+  <b>Is published:</b>
+  <%= @question.is_published %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @question.type %>
+</p>
+
+<p>
+  <b>Sort key:</b>
+  <%= @question.sort_key %>
+</p>
+
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>

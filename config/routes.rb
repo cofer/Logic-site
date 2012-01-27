@@ -1,10 +1,16 @@
 Logic::Application.routes.draw do
 
+  map.resource: user
+
   get "pages/standart"
   
   namespace :admin do
-    resources :sessions
+    resources :answers
+    resources :questions
   end
+  
+
+
   
   namespace :test do
     resources :index

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120125161711) do
+ActiveRecord::Schema.define(:version => 20120127113348) do
+
+  create_table "answers", :force => true do |t|
+    t.integer  "question_id"
+    t.string   "title"
+    t.text     "text"
+    t.text     "correct"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "pages", :force => true do |t|
     t.string   "title"
@@ -23,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20120125161711) do
   create_table "questions", :force => true do |t|
     t.string   "title"
     t.text     "text"
+    t.integer  "variant"
     t.boolean  "is_published"
-    t.integer  "template_id"
-    t.integer  "repo_id"
+    t.string   "type"
     t.integer  "sort_key"
     t.datetime "created_at"
     t.datetime "updated_at"

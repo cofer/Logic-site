@@ -3,9 +3,9 @@ class CreateQuestions < ActiveRecord::Migration
     create_table :questions do |t|
       t.string :title
       t.text :text
+      t.integer :variant
       t.boolean :is_published
-      t.integer :template_id
-      t.integer :repo_id
+      t.string :type
       t.integer :sort_key
 
       t.timestamps
